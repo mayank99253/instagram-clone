@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken"
 import { ENV } from "./env.js"
 
-export const generateToken = async (userId, res) => {
+export const generateToken = async (userId , res) => {
     const token = jwt.sign(
         { userId },
         ENV.JWT_SECRET,
