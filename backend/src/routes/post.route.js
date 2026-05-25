@@ -22,7 +22,7 @@ postRouter.post("/create/post", protectedRoute, upload.single("image"), createPo
 * @Access - Private
 * @Method - GET
 */
-postRouter.get("/get/post", protectedRoute, getPostController)
+postRouter.get("/get/userpost", protectedRoute, getPostController)
 
 /**
  @Route for getting post details

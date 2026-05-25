@@ -82,3 +82,28 @@ export const UserLogin = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" })
     }
 }
+
+export const UserLogout = async (req, res) => {
+    try {
+        res.cookie("token", "", { maxAge: 0 });
+        return res.status(200).json({ message: "User Logged Out" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+export const togglePrivacyController = async (req, res) => {
+    const userId = req.user._id;
+
+    const User = await userModel.findById(userId);
+    if(!User) return res.status(404).json({message:"User not Found"});
+
+    User.isPrivate = !User.isPrivate
+    const UserPrivate = await User.save();
+
+    return res.status(200).json({
+        message : User.isPrivate ? "User Account is Private Now" : "User Account is Public Now", 
+        isPrivate : User.isPrivate 
+    })
+}
