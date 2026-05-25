@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 const followSchema = new mongoose.Schema({
     followee: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"users",
+        ref:"user",
         required: true,
 
     },
     following: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:"users",
+        ref:"user",
         required: true,
     }
 }, {

@@ -18,6 +18,8 @@ export const FollowUserController = async (req, res) => {
     if (followingId.toString() === followeeId.toString()) return res.status(400).json({ message: "You can not follow yourself" })
 
     const followingUser = await userModel.findById(followingId)
+    if (!followingUser) return res.status(404).json({ message: "User Not Found" });
+    const followingUserName = followingUser.username;
 
     const UserFollowing = await followmodel.create({
         followee : followeeId,

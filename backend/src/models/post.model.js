@@ -12,13 +12,13 @@ const postSchema = new mongoose.Schema({
     like : [
         {
             type : mongoose.Schema.Types.ObjectId,
-            ref : "users"
+            ref : "post"
         }
     ],
     comment : [
         {
             type : mongoose.Schema.Types.ObjectId,
-            ref :"users"
+            ref :"post"
         }
     ],
     author : {

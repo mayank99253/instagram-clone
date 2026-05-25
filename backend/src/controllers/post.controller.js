@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import ImageKit, { toFile } from "@imagekit/nodejs"
 import postModel from "../models/post.model.js";
 import likeModel from "../models/like.model.js";
@@ -46,6 +47,9 @@ export const getPostController = async (req, res) => {
 export const detailsPostController = async (req, res) => {
     const postId = req.params.postId;
     if (!postId) return res.status(400).json({ message: "Post Id Required" })
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+        return res.status(400).json({ message: "Invalid Post Id" });
+    }
 
     const userId = req.user._id;
     if (!userId) return res.status(400).json({ message: "User Id Required" })
@@ -66,6 +70,9 @@ export const likePostController = async (req, res) => {
     const userId = req.user._id;
 
     if (!postId) return res.status(400).json({ message: "Post Id Required" })
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+        return res.status(400).json({ message: "Invalid Post Id" });
+    }
     if (!userId) return res.status(400).json({ message: "User Id Required" })
 
     const Post = await postModel.findById(postId);
@@ -75,12 +82,12 @@ export const likePostController = async (req, res) => {
         postId: postId,
         userId: userId
     })
-    if(AlreadyLiked) return res.status(400).json({message : "Post Alredy Liked"})
+    if (AlreadyLiked) return res.status(400).json({ message: "Post Alredy Liked" })
     const Like = await likeModel.create({
         postId: postId,
         userId: userId
     });
 
 
-    return res.status(201).json({ message: "Post Liked" }, Post, Like)
+    return res.status(201).json({ message: "Post Liked", Post, Like })
 }
