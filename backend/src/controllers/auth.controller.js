@@ -40,7 +40,7 @@ export const UserRegister = async (req, res) => {
             password: hashPassword,
         })
 
-        generateToken(user._id , res)
+        generateToken(user._id, res)
 
         return res.status(201).json({
             message: "User Account Created",
@@ -58,24 +58,24 @@ export const UserRegister = async (req, res) => {
 
 export const UserLogin = async (req, res) => {
     try {
-        const { email , password } = req.body;
+        const { email, password } = req.body;
 
-        if(!email?.trim() || !password){
-            return res.status(400).json({message :"All Fields are Required"})
+        if (!email?.trim() || !password) {
+            return res.status(400).json({ message: "All Fields are Required" })
         }
 
         const normalizedEmail = email.toLowerCase()
-        
-        const user = await userModel.findOne({email : normalizedEmail})
-        if(!user) return res.status(401).json({message :"Invalid email or password"})
 
-        const isPasswordCorrect = await bcrypt.compare(password , user.password)
+        const user = await userModel.findOne({ email: normalizedEmail })
+        if (!user) return res.status(401).json({ message: "Invalid email or password" })
 
-        if(!isPasswordCorrect) return res.status(401).json({message:"Invalid email or password"});
+        const isPasswordCorrect = await bcrypt.compare(password, user.password)
 
-        generateToken(user._id , res)
+        if (!isPasswordCorrect) return res.status(401).json({ message: "Invalid email or password" });
 
-        return res.status(200).json({message : "User Logged In"})
+        generateToken(user._id, res)
+
+        return res.status(200).json({ message: "User Logged In" })
 
     } catch (error) {
         console.error(error)
